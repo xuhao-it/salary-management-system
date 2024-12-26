@@ -1,0 +1,151 @@
+.root-stack-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 15;
+}
+
+.main-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 15, 0, 0, 0);
+}
+
+.left-side {
+    -fx-background-color: linear-gradient(to bottom right, #9C27B0, #3F51B5);
+    -fx-background-radius: 15 0 0 15;
+}
+
+.left-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 3, 0, 0, 0);
+}
+
+.left-subtitle {
+    -fx-font-size: 18px;
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
+    -fx-font-style: italic;
+}
+
+.right-side {
+    -fx-background-color: white;
+    -fx-background-radius: 0 15 15 0;
+}
+
+.login-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.95);
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 10, 0, 0, 0);
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(0, 0, 0, 0.05);
+    -fx-border-width: 1;
+}
+
+.welcome-text {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-padding: 0 0 10 0;
+}
+
+.form-container {
+    -fx-padding: 20 0;
+}
+
+.field-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+    -fx-font-weight: bold;
+}
+
+.field-icon {
+    -fx-fill: #9C27B0;
+    -fx-font-size: 16px;
+    -fx-padding: 0 10 0 0;
+}
+
+.input-field-container {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 8;
+    -fx-padding: 0 15;
+    -fx-min-height: 45;
+    -fx-spacing: 10;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+}
+
+.input-field-container:focused-within {
+    -fx-background-color: white;
+    -fx-border-color: #9C27B0;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(156, 39, 176, 0.1), 8, 0, 0, 0);
+}
+
+.mfx-text-field,
+.mfx-password-field {
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+.forgot-password-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9C27B0;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 5 0;
+}
+
+.forgot-password-button:hover {
+    -fx-text-fill: #7B1FA2;
+}
+
+.login-button {
+    -fx-background-color: #9C27B0;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 0;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-min-width: 280px;
+    -fx-effect: dropshadow(gaussian, rgba(156, 39, 176, 0.3), 8, 0, 0, 0);
+}
+
+.login-button:hover {
+    -fx-background-color: #7B1FA2;
+    -fx-effect: dropshadow(gaussian, rgba(156, 39, 176, 0.4), 10, 0, 0, 0);
+}
+
+.login-button:pressed {
+    -fx-background-color: #6A1B9A;
+    -fx-effect: dropshadow(gaussian, rgba(156, 39, 176, 0.2), 4, 0, 0, 0);
+}
+
+.window-controls {
+    -fx-background-color: transparent;
+}
+
+.window-button-container {
+    -fx-background-color: transparent;
+    -fx-min-width: 45px;
+    -fx-min-height: 32px;
+    -fx-cursor: hand;
+}
+
+.window-button-container:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.05);
+}
+
+.close-button-container:hover {
+    -fx-background-color: #ff0000;
+}
+
+.close-button-container:hover .window-icon {
+    -fx-fill: white;
+}
+
+.window-icon {
+    -fx-fill: #666;
+    -fx-font-size: 12px;
+}

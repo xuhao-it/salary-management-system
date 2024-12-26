@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import io.github.palexdev.materialfx.controls.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.xuhao.payroll.controller.StatisticsController"
+      spacing="10" styleClass="statistics-view">
+
+    <!-- 工具栏 -->
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="toolbar">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+
+        <Label text="年份："/>
+        <ComboBox fx:id="yearComboBox" prefWidth="100"/>
+
+        <Label text="月份："/>
+        <ComboBox fx:id="monthComboBox" prefWidth="80"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <MFXButton text="刷新" onAction="#refreshData"
+                  styleClass="mfx-button-primary"/>
+        <MFXButton text="导出" onAction="#exportCharts"
+                  styleClass="mfx-button"/>
+        <MFXButton text="打印" onAction="#printCharts"
+                  styleClass="mfx-button"/>
+    </HBox>
+
+    <!-- 图表区域 -->
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+        <Tab text="图表视图" closable="false">
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <GridPane fx:id="chartsGrid" hgap="10" vgap="10"
+                         styleClass="charts-grid">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                </GridPane>
+            </ScrollPane>
+        </Tab>
+    </TabPane>
+
+</VBox> 

@@ -1,0 +1,187 @@
+.statistics-view {
+    -fx-background-color: -fx-background;
+}
+
+.toolbar {
+    -fx-background-color: -fx-background;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+}
+
+.charts-grid {
+    -fx-background-color: transparent;
+}
+
+.chart-container {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+}
+
+/* 饼图样式 */
+.pie-chart {
+    -fx-padding: 10;
+}
+
+.pie-chart-legend {
+    -fx-background-color: transparent;
+}
+
+.pie-chart .chart-content {
+    -fx-padding: 10;
+}
+
+/* 折线图样式 */
+.line-chart {
+    -fx-padding: 10;
+}
+
+.line-chart .chart-series-line {
+    -fx-stroke-width: 2px;
+}
+
+.line-chart .chart-line-symbol {
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* 柱状图样式 */
+.bar-chart {
+    -fx-padding: 10;
+}
+
+.bar-chart .chart-bar {
+    -fx-background-radius: 3;
+}
+
+/* 堆叠柱状图样式 */
+.stacked-bar-chart {
+    -fx-padding: 10;
+}
+
+.stacked-bar-chart .chart-bar {
+    -fx-background-radius: 3;
+}
+
+/* 区域图样式 */
+.area-chart {
+    -fx-padding: 10;
+}
+
+.area-chart .chart-series-area-line {
+    -fx-stroke-width: 2px;
+}
+
+.area-chart .chart-series-area-fill {
+    -fx-opacity: 0.5;
+}
+
+/* 坐标轴样式 */
+.axis {
+    -fx-tick-label-font-size: 10px;
+    -fx-tick-label-fill: -fx-text-color;
+}
+
+.axis-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: -fx-text-color;
+}
+
+/* 图例样式 */
+.chart-legend {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+.chart-legend-item {
+    -fx-font-size: 11px;
+}
+
+/* 工具提示样式 */
+.tooltip {
+    -fx-font-size: 12px;
+    -fx-background-color: -fx-background;
+    -fx-text-fill: -fx-text-color;
+    -fx-padding: 5 8 5 8;
+    -fx-background-radius: 3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 2);
+}
+
+/* 下拉框样式 */
+.combo-box {
+    -fx-background-color: white;
+    -fx-background-radius: 3;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 3;
+}
+
+.combo-box:hover {
+    -fx-border-color: -fx-primary;
+}
+
+.combo-box:focused {
+    -fx-border-color: -fx-primary;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 1);
+}
+
+/* 按钮样式 */
+.mfx-button {
+    -fx-padding: 8 15;
+    -fx-font-size: 13px;
+}
+
+.mfx-button-primary {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+}
+
+.mfx-button-primary:hover {
+    -fx-background-color: derive(-fx-primary, 10%);
+}
+
+/* 滚动面板样式 */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane>.viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #c0c0c0;
+    -fx-background-radius: 3;
+}
+
+.scroll-bar:vertical .thumb:hover,
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #a0a0a0;
+}
+
+/* 标签页样式 */
+.tab-pane {
+    -fx-tab-min-height: 30;
+}
+
+.tab {
+    -fx-background-color: transparent;
+    -fx-padding: 5 15;
+}
+
+.tab:selected {
+    -fx-background-color: -fx-primary;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.tab-header-background {
+    -fx-background-color: transparent;
+}
