@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: 薪资管理系统API
+  version: 1.0.0
+  description: 薪资管理系统后端API文档
+
+servers:
+  - url: http://localhost:8080/api
+    description: 开发环境
+
+paths:
+  /auth/login:
+    post:
+      summary: 用户登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+
+  /employees:
+    get:
+      summary: 获取员工列表
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: size
+          in: query
+          schema:
+            type: integer
+    post:
+      summary: 创建员工
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeRequest'
+
+  /employees/{id}:
+    get:
+      summary: 获取员工详情
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+    put:
+      summary: 更新员工信息
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmployeeRequest'
+
+  /salaries/calculate:
+    post:
+      summary: 计算薪资
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateSalaryRequest'
+
+  /salaries/payroll:
+    post:
+      summary: 生成工资单
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayrollRequest'
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        username:
+          type: string
+        role:
+          type: string
+
+    CreateEmployeeRequest:
+      type: object
+      properties:
+        employeeNo:
+          type: string
+        name:
+          type: string
+        department:
+          type: string
+        position:
+          type: string
+        baseSalary:
+          type: number
+          format: decimal
+
+    UpdateEmployeeRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        department:
+          type: string
+        position:
+          type: string
+        baseSalary:
+          type: number
+          format: decimal
+
+    PayrollRequest:
+      type: object
+      properties:
+        month:
+          type: string
+          pattern: ^\d{4}-\d{2}$
+        employeeIds:
+          type: array
+          items:
+            type: integer
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

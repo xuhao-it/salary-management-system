@@ -1,0 +1,40 @@
+salary/
+├── interfaces/                    # 接口层
+│   ├── controller/               # 已经正确
+│   ├── facade/                   # 已经正确
+│   └── handler/                  # 需要添加统一异常处理
+│
+├── application/                   
+│   ├── service/                  # 需要按领域上下文分包
+│   │   ├── auth/
+│   │   ├── employee/
+│   │   └── salary/
+│   ├── assembler/                # 需要按领域上下文分包
+│   └── dto/                      # 已经正确分包
+│
+├── domain/
+│   ├── model/                    # 已经正确
+│   ├── repository/              # 只保留接口定义
+│   │   ├── auth/
+│   │   ├── employee/
+│   │   └── salary/
+│   ├── service/                # 按领域服务分包
+│   └── event/                 # 添加领域事件定义
+│
+├── infrastructure/
+│   ├── persistence/           # 持久化相关
+│   │   ├── po/              # 持久化对象
+│   │   ├── mapper/          # MyBatis映射
+│   │   └── repository/      # 仓储实现(移动自domain/repository/impl)
+│   ├── security/            # 已经正确
+│   ├── cache/              # 添加缓存实现
+│   ├── mq/                 # 添加消息队列实现
+│   └── config/             # 已经正确
+│
+└── common/                  # 公共模块
+    ├── annotation/         # 已经正确
+    ├── aspect/            # 已经正确
+    ├── exception/         # 已经正确
+    ├── util/             # 合并infrastructure/utils
+    ├── constant/         # 已经正确
+    └── base/             # 基础类
