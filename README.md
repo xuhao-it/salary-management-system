@@ -78,7 +78,7 @@ src/
 
 1. 克隆项目
 ```bash
-git clone [repository-url]
+git clone [https://github.com/xuhao-it/salary-management-system.git]
 ```
 
 2. 后端服务启动

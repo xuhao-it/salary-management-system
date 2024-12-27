@@ -1,22 +1,37 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-  "exclude": ["src/**/__tests__/*"],
+  "include": [
+    "env.d.ts", 
+    "src/**/*", 
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "src/**/__tests__/*",
+    "node_modules"
+  ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["element-plus/global", "node"],
-    "noEmit": true,
-    "strict": true,
+    "types": [
+      "@types/node",
+      "element-plus/global",
+      "vue-router"
+    ],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "jsx": "preserve",
-    "sourceMap": true,
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true
+    "allowSyntheticDefaultImports": true
   }
 }
