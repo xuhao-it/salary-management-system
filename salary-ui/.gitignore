@@ -1,0 +1,44 @@
+# 依赖目录
+node_modules
+.pnpm-store
+
+# 编译输出
+dist
+dist-ssr
+
+# 本地环境文件
+*.local
+
+# 日志文件
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 编辑器目录和文件
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 测试覆盖率目录
+coverage
+
+# 类型生成文件
+*.tsbuildinfo
+
+# 本地环境变量文件
+.env.local
+.env.*.local
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
