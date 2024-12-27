@@ -42,3 +42,7 @@ coverage
 # Cypress
 cypress/videos/
 cypress/screenshots/
+
+# 其他包管理器的锁文件
+package-lock.json
+yarn.lock
