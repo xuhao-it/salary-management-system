@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhao.payroll.mapper.DepartmentMapper">
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.xuhao.payroll.model.Department">
+        <id column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="dept_desc" property="deptDesc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    
+    <!-- 公共字段 -->
+    <sql id="Base_Column_List">
+        dept_id, dept_name, dept_desc, create_time, update_time
+    </sql>
+    
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.xuhao.payroll.model.Department" useGeneratedKeys="true" keyProperty="deptId">
+        INSERT INTO Department (dept_name, dept_desc, create_time, update_time)
+        VALUES (#{deptName}, #{deptDesc}, GETDATE(), GETDATE())
+    </insert>
+    
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM Department WHERE dept_id = #{deptId}
+    </delete>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="com.xuhao.payroll.model.Department">
+        UPDATE Department
+        <set>
+            <if test="deptName != null">dept_name = #{deptName},</if>
+            <if test="deptDesc != null">dept_desc = #{deptDesc},</if>
+            update_time = GETDATE()
+        </set>
+        WHERE dept_id = #{deptId}
+    </update>
+    
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM Department
+        WHERE dept_id = #{deptId}
+    </select>
+    
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM Department
+        ORDER BY dept_id
+    </select>
+    
+    <!-- 条件查询 -->
+    <select id="selectByCondition" parameterType="com.xuhao.payroll.model.Department" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM Department
+        <where>
+            <if test="deptName != null and deptName != ''">
+                AND dept_name LIKE '%' + #{deptName} + '%'
+            </if>
+            <if test="deptDesc != null and deptDesc != ''">
+                AND dept_desc LIKE '%' + #{deptDesc} + '%'
+            </if>
+        </where>
+        ORDER BY dept_id
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM Department
+    </select>
+    
+    <!-- 根据部门名称查询 -->
+    <select id="selectByDeptName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM Department
+        WHERE dept_name = #{deptName}
+    </select>
+</mapper> 

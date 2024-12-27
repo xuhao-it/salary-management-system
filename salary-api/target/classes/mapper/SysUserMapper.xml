@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhao.payroll.mapper.SysUserMapper">
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.xuhao.payroll.model.SysUser">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="emp_id" property="empId"/>
+        <result column="role_type" property="roleType"/>
+        <result column="status" property="status"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    
+    <!-- 带员工信息的结果映射 -->
+    <resultMap id="WithEmployeeResultMap" extends="BaseResultMap" type="com.xuhao.payroll.model.SysUser">
+        <association property="employee" javaType="com.xuhao.payroll.model.Employee">
+            <id column="emp_id" property="empId"/>
+            <result column="emp_no" property="empNo"/>
+            <result column="emp_name" property="empName"/>
+            <result column="dept_id" property="deptId"/>
+            <result column="position" property="position"/>
+        </association>
+    </resultMap>
+    
+    <!-- 公共字段 -->
+    <sql id="Base_Column_List">
+        user_id, username, password, emp_id, role_type,
+        status, last_login_time, create_time, update_time
+    </sql>
+    
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.xuhao.payroll.model.SysUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO SysUser (
+            username, password, emp_id, role_type,
+            status, last_login_time, create_time, update_time
+        )
+        VALUES (
+            #{username}, #{password}, #{empId}, #{roleType},
+            #{status}, #{lastLoginTime}, GETDATE(), GETDATE()
+        )
+    </insert>
+    
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM SysUser WHERE user_id = #{userId}
+    </delete>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="com.xuhao.payroll.model.SysUser">
+        UPDATE SysUser
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="empId != null">emp_id = #{empId},</if>
+            <if test="roleType != null">role_type = #{roleType},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime},</if>
+            update_time = GETDATE()
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+    
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SysUser
+        WHERE user_id = #{userId}
+    </select>
+    
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SysUser
+        ORDER BY user_id
+    </select>
+    
+    <!-- 条件查询 -->
+    <select id="selectByCondition" parameterType="com.xuhao.payroll.model.SysUser" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SysUser
+        <where>
+            <if test="username != null and username != ''">
+                AND username LIKE '%' + #{username} + '%'
+            </if>
+            <if test="empId != null">
+                AND emp_id = #{empId}
+            </if>
+            <if test="roleType != null">
+                AND role_type = #{roleType}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY user_id
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM SysUser
+    </select>
+    
+    <!-- 根据用户名查询 -->
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SysUser
+        WHERE username = #{username}
+    </select>
+    
+    <!-- 根据员工ID查询 -->
+    <select id="selectByEmpId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SysUser
+        WHERE emp_id = #{empId}
+    </select>
+    
+    <!-- 根据角色类型查询 -->
+    <select id="selectByRoleType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SysUser
+        WHERE role_type = #{roleType}
+        ORDER BY user_id
+    </select>
+    
+    <!-- 根据状态查询 -->
+    <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SysUser
+        WHERE status = #{status}
+        ORDER BY user_id
+    </select>
+    
+    <!-- 更新最后登录时间 -->
+    <update id="updateLastLoginTime" parameterType="java.lang.Integer">
+        UPDATE SysUser
+        SET last_login_time = GETDATE(), update_time = GETDATE()
+        WHERE user_id = #{userId}
+    </update>
+    
+    <!-- 更新密码 -->
+    <update id="updatePassword">
+        UPDATE SysUser
+        SET password = #{password}, update_time = GETDATE()
+        WHERE user_id = #{userId}
+    </update>
+    
+    <!-- 查询带员工信息的用户列表 -->
+    <select id="selectWithEmployee" resultMap="WithEmployeeResultMap">
+        SELECT u.*, e.emp_no, e.emp_name, e.dept_id, e.position
+        FROM SysUser u
+        LEFT JOIN Employee e ON u.emp_id = e.emp_id
+        ORDER BY u.user_id
+    </select>
+</mapper> 

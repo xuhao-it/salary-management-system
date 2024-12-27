@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhao.payroll.mapper.SalaryConfigMapper">
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.xuhao.payroll.model.SalaryConfig">
+        <id column="config_id" property="configId"/>
+        <result column="emp_id" property="empId"/>
+        <result column="basic_salary" property="basicSalary"/>
+        <result column="position_salary" property="positionSalary"/>
+        <result column="insurance_base" property="insuranceBase"/>
+        <result column="housing_fund_base" property="housingFundBase"/>
+        <result column="effective_date" property="effectiveDate"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    
+    <!-- 带员工信息的结果映射 -->
+    <resultMap id="WithEmployeeResultMap" extends="BaseResultMap" type="com.xuhao.payroll.model.SalaryConfig">
+        <association property="employee" javaType="com.xuhao.payroll.model.Employee">
+            <id column="emp_id" property="empId"/>
+            <result column="emp_no" property="empNo"/>
+            <result column="emp_name" property="empName"/>
+            <result column="position" property="position"/>
+        </association>
+    </resultMap>
+    
+    <!-- 公共字段 -->
+    <sql id="Base_Column_List">
+        config_id, emp_id, basic_salary, position_salary, insurance_base,
+        housing_fund_base, effective_date, create_time, update_time
+    </sql>
+    
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.xuhao.payroll.model.SalaryConfig" useGeneratedKeys="true" keyProperty="configId">
+        INSERT INTO SalaryConfig (
+            emp_id, basic_salary, position_salary, insurance_base,
+            housing_fund_base, effective_date, create_time, update_time
+        )
+        VALUES (
+            #{empId}, #{basicSalary}, #{positionSalary}, #{insuranceBase},
+            #{housingFundBase}, #{effectiveDate}, GETDATE(), GETDATE()
+        )
+    </insert>
+    
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM SalaryConfig WHERE config_id = #{configId}
+    </delete>
+    
+    <!-- 更新 -->
+    <update id="update" parameterType="com.xuhao.payroll.model.SalaryConfig">
+        UPDATE SalaryConfig
+        <set>
+            <if test="empId != null">emp_id = #{empId},</if>
+            <if test="basicSalary != null">basic_salary = #{basicSalary},</if>
+            <if test="positionSalary != null">position_salary = #{positionSalary},</if>
+            <if test="insuranceBase != null">insurance_base = #{insuranceBase},</if>
+            <if test="housingFundBase != null">housing_fund_base = #{housingFundBase},</if>
+            <if test="effectiveDate != null">effective_date = #{effectiveDate},</if>
+            update_time = GETDATE()
+        </set>
+        WHERE config_id = #{configId}
+    </update>
+    
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SalaryConfig
+        WHERE config_id = #{configId}
+    </select>
+    
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SalaryConfig
+        ORDER BY config_id DESC
+    </select>
+    
+    <!-- 条件查询 -->
+    <select id="selectByCondition" parameterType="com.xuhao.payroll.model.SalaryConfig" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SalaryConfig
+        <where>
+            <if test="empId != null">
+                AND emp_id = #{empId}
+            </if>
+            <if test="effectiveDate != null">
+                AND effective_date = #{effectiveDate}
+            </if>
+        </where>
+        ORDER BY config_id DESC
+    </select>
+    
+    <!-- 查询总数 -->
+    <select id="count" resultType="long">
+        SELECT COUNT(*) FROM SalaryConfig
+    </select>
+    
+    <!-- 根据员工ID查询 -->
+    <select id="selectByEmpId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM SalaryConfig
+        WHERE emp_id = #{empId}
+        ORDER BY effective_date DESC
+    </select>
+    
+    <!-- 查询员工最新的工资配置 -->
+    <select id="selectLatestByEmpId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT TOP 1 <include refid="Base_Column_List"/>
+        FROM SalaryConfig
+        WHERE emp_id = #{empId}
+        ORDER BY effective_date DESC
+    </select>
+    
+    <!-- 查询带员工信息的工资配置列表 -->
+    <select id="selectWithEmployee" resultMap="WithEmployeeResultMap">
+        SELECT s.*, e.emp_no, e.emp_name, e.position
+        FROM SalaryConfig s
+        LEFT JOIN Employee e ON s.emp_id = e.emp_id
+        ORDER BY s.config_id DESC
+    </select>
+</mapper> 
