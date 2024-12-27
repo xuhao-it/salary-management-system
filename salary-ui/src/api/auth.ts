@@ -1,9 +1,26 @@
 import request from '@/utils/request'
-import type { LoginRequest, LoginResponse } from '@/types/api'
 
-export const login = (data: LoginRequest) => {
-  return request<LoginResponse>({
-    url: '/auth/login',
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  code: number;
+  data: {
+    token: string;
+    userInfo: {
+      id: number;
+      username: string;
+      role: string;
+    };
+  };
+  message: string;
+}
+
+export const login = (data: LoginRequest): Promise<LoginResponse> => {
+  return request({
+    url: '/api/auth/login',  // 添加/api前缀
     method: 'post',
     data
   })

@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id")
+    private Long userId;
     
     @Column(unique = true, nullable = false)
     private String username;
@@ -24,24 +25,29 @@ public class User {
     @Column(nullable = false)
     private String password;
     
-    private String email;
+    @Column(name = "emp_id")
+    private Long empId;
     
-    @Column(nullable = false)
-    private String role;
+    @Column(name = "role_type")
+    private Integer roleType;
     
+    private Integer status;
+    
+    @Column(name = "last_login_time")
+    private LocalDateTime lastLoginTime;
+    
+    @Column(name = "create_time")
     private LocalDateTime createTime;
     
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
-    
-    private Boolean enabled;
     
     @PrePersist
     protected void onCreate() {
         createTime = LocalDateTime.now();
         updateTime = LocalDateTime.now();
-        enabled = true;
-        if (role == null) {
-            role = "ROLE_USER";
+        if (status == null) {
+            status = 1;
         }
     }
     
@@ -51,6 +57,13 @@ public class User {
     }
 
     public String getRole() {
-        return this.role;
+        if (roleType == null) return "ROLE_USER";
+        return switch (roleType) {
+            case 1 -> "ROLE_SUPER_ADMIN";
+            case 2 -> "ROLE_ADMIN";
+            case 3 -> "ROLE_HR";
+            case 4 -> "ROLE_FINANCE";
+            default -> "ROLE_USER";
+        };
     }
 }

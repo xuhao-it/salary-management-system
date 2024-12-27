@@ -86,3 +86,16 @@
 :deep(.el-form-item) {
   margin-bottom: 20px;  /* 增加表单项之间的间距 */
 }
+.error {
+  animation: shake 0.5s;
+}
+
+.system-error {
+  filter: grayscale(50%);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}

@@ -37,22 +37,32 @@ export const useLogin = () => {
     }
 
     loading.value = true
+    loginError.value = false
+    systemError.value = false
+
     try {
-      const res = await login({
-        username: form.value.username,
+      console.log('Login attempt:', { username: form.value.username })  // 添加登录尝试日志
+      const result = await login({
+        username: form.value.username.trim(),
         password: form.value.password
       })
       
-      // 保存token
-      localStorage.setItem('token', res.data.token)
-      // 保存用户信息
-      localStorage.setItem('userInfo', JSON.stringify(res.data.userInfo))
+      console.log('Login result:', result)  // 添加登录结果日志
       
-      ElMessage.success('登录成功')
-      router.push('/')
+      if (result.code === 200 && result.data) {
+        localStorage.setItem('token', result.data.token)
+        localStorage.setItem('userInfo', JSON.stringify(result.data.userInfo))
+        ElMessage.success('登录成功')
+        await router.push('/')
+      } else {
+        loginError.value = true
+        throw new Error(result.message || '登录失败')
+      }
     } catch (error: any) {
+      console.error('Login error:', error)  // 添加错误日志
       loginError.value = true
-      ElMessage.error(error.message || '登录失败')
+      systemError.value = true
+      ElMessage.error(error?.response?.data?.message || error?.message || '登录失败')
     } finally {
       loading.value = false
     }

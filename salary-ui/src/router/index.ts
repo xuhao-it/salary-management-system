@@ -1,14 +1,32 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
-const routes: RouteRecordRaw[] = [
+// 定义带有meta的路由记录类型
+interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta'> {
+  meta?: {
+    requiresAuth?: boolean
+  }
+  children?: AppRouteRecordRaw[]
+}
+
+// 扩展 RouteMeta 接口
+declare module 'vue-router' {
+  interface RouteMeta {
+    requiresAuth?: boolean
+  }
+}
+
+const routes: AppRouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/login/Login.vue')  // 修改为正确的路径
+    component: () => import('../views/login/Login.vue'),  // 修改为正确的路径
+    meta: { requiresAuth: false }
   },
   {
     path: '/',
     component: () => import('@/layouts/DefaultLayout.vue'),
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
@@ -50,14 +68,12 @@ const router = createRouter({
   routes
 })
 
-// 添加路由守卫
-router.beforeEach((to, from, next) => {
+// 修改路由守卫，删除未使用的 from 参数
+router.beforeEach((to, _from, next) => {
   const token = localStorage.getItem('token')
   
-  if (to.path !== '/login' && !token) {
+  if (to.meta.requiresAuth && !token) {
     next('/login')
-  } else if (to.path === '/login' && token) {
-    next('/')
   } else {
     next()
   }

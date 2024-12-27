@@ -16,7 +16,14 @@ const {
 </script>
 
 <template>
-  <div class="login-container" :style="{ backgroundImage: `url(${backgroundImage})` }">
+  <div 
+    class="login-container" 
+    :class="{
+      'error': loginError,
+      'system-error': systemError
+    }"
+    :style="{ backgroundImage: `url(${backgroundImage})` }"
+  >
     <div class="login-box">
       <div class="logo-container">
         <img src="/logo/app_logo.png" alt="Logo" class="logo">
@@ -83,7 +90,7 @@ const {
             type="primary"
             :loading="loading"
             class="login-button"
-            @click="isLogin ? handleLogin : handleRegister"
+            @click="isLogin ? handleLogin() : handleRegister()"
           >
             {{ isLogin ? '登录' : '注册' }}
           </el-button>
@@ -106,6 +113,7 @@ const {
   </div>
 </template>
 
-<style >
-@import './login.css';
+<style scoped>
+@import url(./login.css);
+
 </style>
