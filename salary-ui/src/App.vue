@@ -16,5 +16,12 @@ html, body {
 
 #app {
   height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:root {
+  --el-color-primary: #409eff;
 }
 </style>

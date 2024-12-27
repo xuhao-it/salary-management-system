@@ -3,30 +3,31 @@ import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
 import App from './App.vue'
-import { createRouter, createWebHistory, Router } from 'vue-router'
-import routes from './routes'
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes
-})
+import type { Router } from 'vue-router'
+import router from './router'
 
 import 'element-plus/dist/index.css'
 import './assets/main.css'
 
 const app = createApp(App)
 
-// 注册Element Plus图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 
+// 声明 use 方法的重载
+declare module '@vue/runtime-core' {
+    interface App {
+        use(router: Router): this
+    }
+}
+
 app.use(createPinia())
-   .use(router as unknown as Plugin)
-   .use(ElementPlus, {
-        locale: zhCn,
-        size: 'default'
-   })
+app.use(ElementPlus, {
+    locale: zhCn,
+    size: 'default'
+})
+app.use(router)
+
 app.mount('#app')

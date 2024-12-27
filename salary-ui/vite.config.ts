@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 import VueRouter from 'unplugin-vue-router/vite'
+import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,7 +16,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': resolve(__dirname, './src')
     }
   },
   server: {
@@ -25,6 +26,25 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'es2020'
+    }
+  },
+  build: {
+    target: 'es2020',
+    minify: 'esbuild',
+    sourcemap: false,
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'element-plus': ['element-plus'],
+          'vue': ['vue', 'vue-router', 'pinia']
+        }
       }
     }
   }
