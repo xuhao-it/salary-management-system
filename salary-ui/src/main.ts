@@ -5,7 +5,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 import type { Router } from 'vue-router'
-import router from './router'
+import router from './router'  // 修改这里的导入路径
 
 import 'element-plus/dist/index.css'
 import './assets/main.css'

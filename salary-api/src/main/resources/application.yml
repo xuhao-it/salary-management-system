@@ -4,13 +4,15 @@ server:
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;databaseName=salary_db;encrypt=false
+    url: jdbc:sqlserver://localhost:1433;databaseName=salary_db;encrypt=true;trustServerCertificate=true
     username: sa
     password: your_password
-    
+  
   redis:
     host: localhost
     port: 6379
+    password: 
+    database: 0
     
   rabbitmq:
     host: localhost
@@ -20,10 +22,17 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.xuhao.salary.infrastructure.persistence.po
+  type-aliases-package: com.xuhao.salary.domain.entity
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 jwt:
-  secret: your_jwt_secret_key
-  expiration: 86400000 # 24小时
+  secret: your_jwt_secret_key_please_change_in_production
+  expiration: 86400  # 24小时
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html

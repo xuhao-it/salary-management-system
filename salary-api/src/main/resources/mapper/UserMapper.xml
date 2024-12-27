@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhao.salary.infrastructure.mapper.UserMapper">
+    <select id="findByUsername" resultType="com.xuhao.salary.domain.entity.system.User">
+        SELECT id, username, password, role, company_name, status, token
+        FROM users
+        WHERE username = #{username}
+    </select>
+    
+    <update id="updateToken">
+        UPDATE users
+        SET token = #{token}
+        WHERE username = #{username}
+    </update>
+</mapper>

@@ -9,12 +9,12 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "axios": "^1.6.0",
+    "axios": "^1.7.9",
     "element-plus": "^2.9.1",
+    "esbuild": "^0.24.2",
     "pinia": "^2.3.0",
     "vue": "^3.x.x",
-    "vue-router": "^4.5.0",
-    "esbuild": "^0.24.2"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.4",

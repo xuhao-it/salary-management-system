@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/Login.vue')
+    component: () => import('../views/login/Login.vue')  // 修改为正确的路径
   },
   {
     path: '/',
@@ -46,14 +46,18 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 
+// 添加路由守卫
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
+  
   if (to.path !== '/login' && !token) {
     next('/login')
+  } else if (to.path === '/login' && token) {
+    next('/')
   } else {
     next()
   }
