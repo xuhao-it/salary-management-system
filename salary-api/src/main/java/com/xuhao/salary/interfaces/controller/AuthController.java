@@ -2,9 +2,9 @@ package com.xuhao.salary.interfaces.controller;
 
 import com.xuhao.salary.application.dto.request.auth.LoginRequest;
 import com.xuhao.salary.application.dto.response.auth.LoginResponse;
-import com.xuhao.salary.common.util.Result;
-import com.xuhao.salary.application.service.auth.AuthService;
-
+import com.xuhao.salary.infrastructure.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    private final AuthService authService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public Result<LoginResponse> login(@RequestBody LoginRequest request) {
-        return Result.success(authService.login(request));
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(authenticationService.login(loginRequest));
     }
 }

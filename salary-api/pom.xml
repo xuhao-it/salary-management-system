@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.1</version>
+        <version>3.2.1</version>
         <relativePath />
     </parent>
 
@@ -74,11 +74,6 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>${mssql.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
 
         <!-- MyBatis 依赖 -->
         <dependency>
@@ -87,13 +82,6 @@
             <version>3.0.3</version>
         </dependency>
         
-        <!-- MySQL 依赖 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
-        </dependency>
-
         <!-- Redis缓存 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

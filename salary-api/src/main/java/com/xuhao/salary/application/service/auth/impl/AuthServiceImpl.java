@@ -19,11 +19,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse login(LoginRequest request) {
         authenticate(request.getUsername(), request.getPassword());
-        
         String token = authDomainService.generateToken(request.getUsername());
+        
         return LoginResponse.builder()
                 .token(token)
-                .username(request.getUsername())
+                .userInfo(LoginResponse.UserInfo.builder()
+                        .username(request.getUsername())
+                        .build())
                 .build();
     }
 

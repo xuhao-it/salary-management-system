@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://production-db:3306/salary_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: sa
+    password: 245689731
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        "[format_sql]": false
+
+  data:
+    redis:
+      host: production-redis
+      port: 6379
+      database: 0
+      timeout: 10000
+      lettuce:
+        pool:
+          max-active: 16
+          max-wait: -1
+          max-idle: 8
+          min-idle: 2
+
+logging:
+  level:
+    "[com.xuhao.salary]": warn
+    "[org.mybatis]": warn

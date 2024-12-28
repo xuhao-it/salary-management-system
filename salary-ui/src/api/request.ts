@@ -1,15 +1,16 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
-import router from '@/router'  // 修正导入路径
+
+// ...existing code...
 
 const instance: AxiosInstance = axios.create({
-  // 确保与后端服务地址匹配
-  baseURL: 'http://localhost:8080',  // 直接硬编码后端地址用于测试
+  baseURL: 'http://localhost:8080',  // 直接连接后端服务
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
+  withCredentials: true  // 允许跨域携带认证信息
 })
 
 // 请求拦截器

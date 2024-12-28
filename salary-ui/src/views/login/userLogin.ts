@@ -10,8 +10,8 @@ export const useLogin = () => {
   const systemError = ref(false)
 
   const form = ref({
-    username: '',  // 用户名存储在这里
-    password: ''   // 密码存储在这里
+    username: 'admin',  // 设置默认用户名
+    password: '123456'   // 设置默认密码
   })
 
   const isLogin = ref(true)
@@ -41,18 +41,18 @@ export const useLogin = () => {
     systemError.value = false
 
     try {
-      const loginData = {
+      console.log('尝试登录:', { username: form.value.username })
+      const result = await login({
         username: form.value.username.trim(),
         password: form.value.password
-      }
-      console.log('发送登录请求:', loginData)
+      })
       
-      const result = await login(loginData)
-      console.log('登录响应:', result)
-      
-      if (result.code === 200 && result.data?.token) {
-        localStorage.setItem('token', result.data.token)
-        localStorage.setItem('userInfo', JSON.stringify(result.data.userInfo))
+      if (result.code === 200) {  // 修改为实际的成功状态码
+        // 添加类型检查
+        if (result.data) {
+          localStorage.setItem('token', result.data.token)
+          localStorage.setItem('userInfo', JSON.stringify(result.data.userInfo))
+        }
         ElMessage.success('登录成功')
         await router.push('/')
       } else {

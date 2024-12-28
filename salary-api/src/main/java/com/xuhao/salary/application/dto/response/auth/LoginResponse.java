@@ -1,15 +1,20 @@
 package com.xuhao.salary.application.dto.response.auth;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 public class LoginResponse {
     private String token;
-    private String username;
+    private UserInfo userInfo;
+
+    @Data
+    @Builder
+    public static class UserInfo {
+        private Long id;
+        private String username;
+        private String email;
+        private String roles;
+    }
 }

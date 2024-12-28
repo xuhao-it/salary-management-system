@@ -1,42 +1,37 @@
 package com.xuhao.salary.infrastructure.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import com.xuhao.salary.infrastructure.config.JwtConfig;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
-    @Value("${jwt.secret}")
-    private String jwtSecret;
 
-    @Value("${jwt.expiration}")
-    private int jwtExpiration;
+    private final JwtConfig jwtConfig;
 
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
-    }
-
-    public String generateToken(String username) {
-        Instant now = Instant.now();
-        Instant expiryInstant = now.plusSeconds(jwtExpiration);
+    public String generateToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtConfig.getExpiration());
 
         return Jwts.builder()
-                .subject(username)
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(expiryInstant))
-                .signWith(getSigningKey())
+                .claim("sub", userDetails.getUsername())
+                .claim("iat", now)
+                .claim("exp", expiryDate)
+                .claim("iss", jwtConfig.getIssuer())
+                .signWith(jwtConfig.jwtSecretKey())
                 .compact();
     }
 
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parser()
-                .verifyWith(getSigningKey())
+                .verifyWith(jwtConfig.jwtSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -46,16 +41,12 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .verifyWith(getSigningKey())
-                    .build()
-                    .parseSignedClaims(token);
+                .verifyWith(jwtConfig.jwtSecretKey())
+                .build()
+                .parseSignedClaims(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (JwtException e) {
             return false;
         }
-    }
-
-    public long getExpirationInSeconds() {
-        return jwtExpiration;
     }
 }

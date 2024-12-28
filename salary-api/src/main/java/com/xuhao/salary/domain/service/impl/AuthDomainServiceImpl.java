@@ -7,6 +7,8 @@ import com.xuhao.salary.infrastructure.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +32,10 @@ public class AuthDomainServiceImpl implements AuthDomainService {
 
     @Override
     public String generateToken(String username) {
-        return jwtTokenProvider.generateToken(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     @Override
@@ -38,3 +43,4 @@ public class AuthDomainServiceImpl implements AuthDomainService {
         return jwtTokenProvider.validateToken(token);
     }
 }
+

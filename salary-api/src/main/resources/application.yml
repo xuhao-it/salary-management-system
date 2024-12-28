@@ -5,10 +5,20 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/salary_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: your_password
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://localhost:1433;databaseName=salary_db;encrypt=false;trustServerCertificate=true;integratedSecurity=false
+    username: sa
+    password: 245689731
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 300000
+      connection-timeout: 20000
+      connection-test-query: SELECT 1
+      max-lifetime: 1200000
+      register-mbeans: true
+  profiles:
+    active: dev
   
   jpa:
     hibernate:
@@ -18,8 +28,11 @@ spring:
     properties:
       hibernate:
         '[format_sql]': true
-    entity-scan:
-      base-packages: com.sms.domain.entity
+        '[globally_quoted_identifiers]': true
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
   
   data:
     redis:
@@ -41,23 +54,21 @@ springdoc:
     path: /swagger-ui.html
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.xuhao.salary.infrastructure.persistence.entity
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*.xml
-  type-aliases-package: com.sms.domain.entity
-  configuration:
-    map-underscore-to-camel-case: true
+  type-aliases-package: com.xuhao.salary.infrastructure.persistence.entity
+  # 移除 mapper-locations 配置，因为我们使用注解方式
 
 security:
   jwt:
-    secret-key: your-secret-key
-    token-validity: 86400000
-    refresh-token-validity: 604800000
+    secret-key: ${JWT_SECRET:your-default-secret-key-must-be-at-least-256-bits-long}
+    token-validity: ${JWT_TOKEN_VALIDITY:86400000}
+    refresh-token-validity: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}
+    issuer: salary-management-system
+    expiration: ${JWT_TOKEN_VALIDITY:86400000}
+    refresh-token:
+      expiration: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}
 
 application:
   cors:
@@ -70,5 +81,5 @@ application:
 
 logging:
   level:
-    com.xuhao.salary: debug
-    org.mybatis: debug
+    '[com.xuhao.salary]': debug
+    '[org.mybatis]': debug

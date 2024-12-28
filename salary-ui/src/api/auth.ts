@@ -21,7 +21,7 @@ export interface LoginResponse {
 
 export const login = (data: LoginParams): Promise<LoginResult> => {
   return request({
-    url: '/login',  // 修改为实际的登录接口路径
+    url: '/login',  // 修改为实际的登录路径
     method: 'post',
     data
   })
