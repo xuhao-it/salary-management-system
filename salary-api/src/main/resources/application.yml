@@ -5,18 +5,33 @@ server:
 
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=salary_db;encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://localhost:1433;databaseName=PayrollDB;encrypt=true;trustServerCertificate=true
     username: sa
-    password: 245689731  # 替换为你的实际密码
+    password: 245689731
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
-        format_sql: true
         dialect: org.hibernate.dialect.SQLServerDialect
+        format_sql: true
+    packages-to-scan: com.xuhao.salary.domain.model
+
+  redis:
+    host: localhost
+    port: 6379
+    
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xuhao.salary.domain.model
 
 jwt:
   secret: your_jwt_secret_key_here
