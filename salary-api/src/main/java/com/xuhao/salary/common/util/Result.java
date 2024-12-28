@@ -1,24 +1,28 @@
 package com.xuhao.salary.common.util;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Result<T> {
-    private Integer code;
+    private boolean success;
     private String message;
     private T data;
-
-    private Result(Integer code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
+    private Integer code;
 
     public static <T> Result<T> success(T data) {
-        return new Result<>(200, "操作成功", data);
+        Result<T> result = new Result<>();
+        result.success = true;
+        result.code = 200;
+        result.data = data;
+        return result;
     }
 
-    public static <T> Result<T> error(Integer code, String message) {
-        return new Result<>(code, message, null);
+    public static <T> Result<T> success() {
+        Result<T> result = new Result<>();
+        result.success = true;
+        result.code = 200;
+        return result;
     }
 }

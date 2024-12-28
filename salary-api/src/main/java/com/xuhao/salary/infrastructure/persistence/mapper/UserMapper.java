@@ -2,24 +2,22 @@ package com.xuhao.salary.infrastructure.persistence.mapper;
 
 import com.xuhao.salary.infrastructure.persistence.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper {
-    
-    @Results({
-        @Result(property = "id", column = "id"),
-        @Result(property = "username", column = "username"),
-        @Result(property = "password", column = "password"),
-        @Result(property = "email", column = "email"),
-        @Result(property = "roles", column = "roles"),
-        @Result(property = "accountNonExpired", column = "account_non_expired"),
-        @Result(property = "accountNonLocked", column = "account_non_locked"),
-        @Result(property = "credentialsNonExpired", column = "credentials_non_expired"),
-        @Result(property = "enabled", column = "enabled")
-    })
-    @Select("SELECT * FROM sys_user WHERE username = #{username}")
+    @Select("SELECT " +
+           "u.user_id as id, " +
+           "u.username, " +
+           "u.password, " +
+           "u.role_type as roles, " +
+           "u.status as enabled, " +
+           "e.email, " +
+           "1 as account_non_expired, " +
+           "1 as account_non_locked, " +
+           "1 as credentials_non_expired " +
+           "FROM SysUser u " +
+           "LEFT JOIN Employee e ON u.emp_id = e.emp_id " +
+           "WHERE u.username = #{username}")
     UserEntity findByUsername(String username);
 }

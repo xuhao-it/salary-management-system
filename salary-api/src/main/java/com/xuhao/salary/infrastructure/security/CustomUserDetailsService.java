@@ -10,9 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -27,9 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        List<SimpleGrantedAuthority> authorities = Arrays.stream(user.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        // 创建单个角色的授权列表
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRoles());
 
         return new User(
                 user.getUsername(),
@@ -38,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 user.isAccountNonExpired(),
                 user.isCredentialsNonExpired(),
                 user.isAccountNonLocked(),
-                authorities
+                Collections.singletonList(authority)
         );
     }
 }

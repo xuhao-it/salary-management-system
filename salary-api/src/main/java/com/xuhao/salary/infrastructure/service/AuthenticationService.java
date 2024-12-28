@@ -34,16 +34,20 @@ public class AuthenticationService {
     }
 
     private LoginResponse createLoginResponse(String token, UserEntity user) {
-        LoginResponse.UserInfo userInfo = LoginResponse.UserInfo.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .roles(user.getRoles())
-                .build();
+        LoginResponse.UserInfo userInfo = buildUserInfo(user);
 
         return LoginResponse.builder()
                 .token(token)
                 .userInfo(userInfo)
+                .build();
+    }
+
+    private LoginResponse.UserInfo buildUserInfo(UserEntity user) {
+        return LoginResponse.UserInfo.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .role(user.getRole()) // 修改为role而不是roles
                 .build();
     }
 }

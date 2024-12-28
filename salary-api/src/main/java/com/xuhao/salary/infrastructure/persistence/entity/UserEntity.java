@@ -8,9 +8,13 @@ public class UserEntity {
     private String username;
     private String password;
     private String email;
-    private String roles;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
-    private boolean enabled;
+    private String role;
+    private boolean enabled = true;
+    private boolean accountNonExpired = true;
+    private boolean credentialsNonExpired = true;
+    private boolean accountNonLocked = true;
+
+    public String[] getRoles() {
+        return new String[]{this.role};
+    }
 }

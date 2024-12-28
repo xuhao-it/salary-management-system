@@ -3,16 +3,17 @@
 <mapper namespace="com.xuhao.salary.infrastructure.persistence.mapper.UserMapper">
     <select id="findByUsername" resultType="com.xuhao.salary.infrastructure.persistence.entity.UserEntity">
         SELECT 
-            id,
-            username,
-            password,
-            email,
-            roles,
-            account_non_expired,
-            account_non_locked,
-            credentials_non_expired,
-            enabled
-        FROM sys_user 
-        WHERE username = #{username}
+            u.user_id as id,
+            u.username,
+            u.password,
+            u.role_type as roles,
+            u.status as enabled,
+            e.email,
+            1 as account_non_expired,
+            1 as account_non_locked,
+            1 as credentials_non_expired
+        FROM SysUser u
+        LEFT JOIN Employee e ON u.emp_id = e.emp_id 
+        WHERE u.username = #{username}
     </select>
 </mapper>

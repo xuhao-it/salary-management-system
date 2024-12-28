@@ -6,26 +6,27 @@ server:
 spring:
   datasource:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;databaseName=salary_db;encrypt=false;trustServerCertificate=true;integratedSecurity=false
+    url: jdbc:sqlserver://localhost;databaseName=master;trustServerCertificate=true;encrypt=false
     username: sa
     password: 245689731
     hikari:
       minimum-idle: 5
       maximum-pool-size: 10
       idle-timeout: 300000
-      connection-timeout: 20000
+      connection-timeout: 60000
       connection-test-query: SELECT 1
+      connection-init-sql: USE PayrollDB
   
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate  # 改为validate模式，因为表已经存在
     show-sql: true
     database-platform: org.hibernate.dialect.SQLServer2012Dialect
     properties:
       hibernate:
         '[format_sql]': true
         '[globally_quoted_identifiers]': true
-        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        dialect: org.hibernate.dialect.SQLServerDialect
         jdbc:
           lob:
             non_contextual_creation: true
