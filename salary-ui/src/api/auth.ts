@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import request from './request'
+import type { LoginParams, LoginResult } from '@/types/auth'
 
 export interface LoginRequest {
   username: string;
@@ -18,9 +19,9 @@ export interface LoginResponse {
   message: string;
 }
 
-export const login = (data: LoginRequest): Promise<LoginResponse> => {
+export const login = (data: LoginParams): Promise<LoginResult> => {
   return request({
-    url: '/api/auth/login',  // 添加/api前缀
+    url: '/login',  // 修改为实际的登录接口路径
     method: 'post',
     data
   })

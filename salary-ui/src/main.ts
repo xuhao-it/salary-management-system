@@ -8,7 +8,7 @@ import type { Router } from 'vue-router'
 import router from './router'  // 修改这里的导入路径
 
 import 'element-plus/dist/index.css'
-import './assets/main.css'
+import './assets/styles/main.css'
 
 const app = createApp(App)
 

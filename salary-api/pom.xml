@@ -80,6 +80,20 @@
             <version>${mybatis-plus.version}</version>
         </dependency>
 
+        <!-- MyBatis 依赖 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        
+        <!-- MySQL 依赖 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+
         <!-- Redis缓存 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

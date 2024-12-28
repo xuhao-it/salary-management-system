@@ -69,13 +69,16 @@ const router = createRouter({
 })
 
 // 修改路由守卫，删除未使用的 from 参数
-router.beforeEach((to, _from, next) => {
+router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
-  
-  if (to.meta.requiresAuth && !token) {
-    next('/login')
-  } else {
+  if (to.path === '/login') {
     next()
+  } else {
+    if (token) {
+      next()
+    } else {
+      next('/login')
+    }
   }
 })
 

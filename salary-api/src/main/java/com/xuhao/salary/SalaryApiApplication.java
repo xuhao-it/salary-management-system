@@ -1,12 +1,14 @@
 package com.xuhao.salary;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
+@MapperScan("com.xuhao.salary.infrastructure.persistence.mapper")
+@EnableTransactionManagement
 public class SalaryApiApplication {
-    // 建议使用 mvn spring-boot:run 启动应用
-    // 这样可以确保正确加载所有Spring Boot配置和依赖
     public static void main(String[] args) {
         SpringApplication.run(SalaryApiApplication.class, args);
     }

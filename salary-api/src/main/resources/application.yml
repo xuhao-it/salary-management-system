@@ -5,10 +5,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=PayrollDB;encrypt=true;trustServerCertificate=true
-    username: sa
-    password: 245689731
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/salary_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: your_password
   
   jpa:
     hibernate:
@@ -40,6 +40,13 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xuhao.salary.infrastructure.persistence.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: com.sms.domain.entity
@@ -60,3 +67,8 @@ application:
     exposed-headers: Authorization
     allow-credentials: true
     max-age: 3600
+
+logging:
+  level:
+    com.xuhao.salary: debug
+    org.mybatis: debug

@@ -1,66 +1,62 @@
 import axios from 'axios'
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 import router from '@/router'  // 修正导入路径
 
-const service = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json'
-    }
+const instance: AxiosInstance = axios.create({
+  // 确保与后端服务地址匹配
+  baseURL: 'http://localhost:8080',  // 直接硬编码后端地址用于测试
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 })
 
 // 请求拦截器
-service.interceptors.request.use(
-    config => {
-        console.log('Request:', config)  // 添加请求日志
-        const token = localStorage.getItem('token')
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`
-        }
-        return config
-    },
-    error => {
-        console.error('Request Error:', error)  // 添加错误日志
-        return Promise.reject(error)
+instance.interceptors.request.use(
+  (config) => {
+    console.log('Request config:', config) // 添加请求日志
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
     }
+    return config
+  },
+  (error) => {
+    console.error('Request error:', error) // 添加错误日志
+    return Promise.reject(error)
+  }
 )
 
 // 响应拦截器
-service.interceptors.response.use(
-    response => {
-        console.log('Response:', response)  // 添加响应日志
-        const res = response.data
-        if (res.code !== 200) {
-            ElMessage.error(res.message || '请求失败')
-            return Promise.reject(res)
-        }
-        return res
-    },
-    error => {
-        console.error('Response Error:', error)  // 添加错误日志
-        if (error.response) {
-            const { status, data } = error.response
-            switch (status) {
-                case 401:
-                    ElMessage.error('未登录或登录已过期')
-                    localStorage.removeItem('token')
-                    localStorage.removeItem('userInfo')
-                    router.push('/login')
-                    break
-                case 403:
-                    ElMessage.error('没有权限访问')
-                    break
-                default:
-                    ElMessage.error(data?.message || `请求失败: ${status}`)
-            }
-        } else if (error.request) {
-            ElMessage.error('服务器无响应')
-        } else {
-            ElMessage.error('请求配置错误')
-        }
-        return Promise.reject(error)
+instance.interceptors.response.use(
+  (response: AxiosResponse) => {
+    console.log('Response:', response) // 添加响应日志
+    return response.data
+  },
+  (error) => {
+    console.error('Response error:', error) // 添加错误日志
+    if (error.response) {
+      switch (error.response.status) {
+        case 400:
+          ElMessage.error('请求参数错误')
+          break
+        case 401:
+          ElMessage.error('未授权，请重新登录')
+          localStorage.removeItem('token')
+          window.location.href = '/login'
+          break
+        case 500:
+          ElMessage.error('服务器错误，请稍后重试')
+          break
+        default:
+          ElMessage.error(error.response.data?.message || '未知错误')
+      }
+    } else {
+      ElMessage.error('网络错误，请检查网络连接')
     }
+    return Promise.reject(error)
+  }
 )
 
-export default service
+export default instance
