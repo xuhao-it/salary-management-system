@@ -12,9 +12,9 @@ public class LoginResponse {
     @Data
     @Builder
     public static class UserInfo {
-        private Integer id;  // 修改为Integer以匹配UserEntity
+        private Long userId;
         private String username;
-        private String email;
-        private Integer roleType;  // 修改为Integer类型
+        private Long empId;
+        private Integer roleType;
     }
 }

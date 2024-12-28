@@ -1,1 +1,3 @@
-SELECT * from SysUser
+SELECT * from SysUser;
+
+use PayrollDB

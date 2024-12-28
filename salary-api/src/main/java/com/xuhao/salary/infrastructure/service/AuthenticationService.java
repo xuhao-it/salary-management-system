@@ -44,10 +44,10 @@ public class AuthenticationService {
 
     private LoginResponse.UserInfo buildUserInfo(UserEntity user) {
         return LoginResponse.UserInfo.builder()
-                .id(user.getId())
+                .userId(user.getUserId())      // 修改为userId
                 .username(user.getUsername())
-                .email(user.getEmail())
-                .role(user.getRole()) // 修改为role而不是roles
+                .empId(user.getEmpId())        // 添加empId
+                .roleType(user.getRoleType())  // 使用roleType
                 .build();
     }
 }

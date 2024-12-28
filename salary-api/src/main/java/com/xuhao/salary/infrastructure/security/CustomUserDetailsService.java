@@ -25,8 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
 
-        // 创建单个角色的授权列表
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRoles());
+        // 修改为使用单个字符串参数
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
 
         return new User(
                 user.getUsername(),
