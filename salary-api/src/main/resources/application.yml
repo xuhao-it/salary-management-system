@@ -23,7 +23,7 @@ spring:
   
   jpa:
     hibernate:
-      ddl-auto: none  # 改为 none，防止自动修改表结构
+      ddl-auto: none
     show-sql: true
     database-platform: org.hibernate.dialect.SQLServerDialect
     properties:
@@ -35,7 +35,38 @@ spring:
             non_contextual_creation: true
         physical_naming_strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-  
+        temp:
+          use_jdbc_metadata_defaults: false
+        javax:
+          persistence:
+            schema-validation:
+              database: false
+              mode: none
+            validation:
+              mode: none
+        # 完全禁用schema验证
+        ddl-auto: none
+        javax.persistence.schema-validation.mode: none
+
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET:your-default-secret-key-must-be-at-least-256-bits-long}
+      token-validity: ${JWT_TOKEN_VALIDITY:86400000}
+      refresh-token-validity: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}
+      issuer: salary-management-system
+      expiration: ${JWT_TOKEN_VALIDITY:86400000}
+      refresh-token:
+        expiration: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}
+
+  web:
+    cors:
+      allowed-origins: http://localhost:3000
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: Authorization,Content-Type
+      exposed-headers: Authorization
+      allow-credentials: true
+      max-age: 3600
+
   data:
     redis:
       host: localhost
@@ -60,26 +91,6 @@ mybatis:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   type-aliases-package: com.xuhao.salary.infrastructure.persistence.entity
-  # 移除 mapper-locations 配置，因为我们使用注解方式
-
-security:
-  jwt:
-    secret-key: ${JWT_SECRET:your-default-secret-key-must-be-at-least-256-bits-long}
-    token-validity: ${JWT_TOKEN_VALIDITY:86400000}
-    refresh-token-validity: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}
-    issuer: salary-management-system
-    expiration: ${JWT_TOKEN_VALIDITY:86400000}
-    refresh-token:
-      expiration: ${JWT_REFRESH_TOKEN_VALIDITY:604800000}
-
-application:
-  cors:
-    allowed-origins: http://localhost:3000
-    allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-    allowed-headers: Authorization,Content-Type
-    exposed-headers: Authorization
-    allow-credentials: true
-    max-age: 3600
 
 logging:
   level:

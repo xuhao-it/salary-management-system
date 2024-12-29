@@ -1,5 +1,6 @@
 package com.xuhao.salary.application.dto.response.auth;
 
+import com.xuhao.salary.domain.model.system.UserRole;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,9 +13,7 @@ public class LoginResponse {
     @Data
     @Builder
     public static class UserInfo {
-        private Long userId;
         private String username;
-        private Long empId;
-        private Integer roleType;
+        private UserRole role;  // 修改为UserRole类型
     }
 }
